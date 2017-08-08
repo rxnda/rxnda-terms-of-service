@@ -10,3 +10,14 @@ terms.docx: terms.cform blanks.json | $(COMMONFORM)
 
 terms.json: terms.cform | $(COMMONFORM)
 	$(COMMONFORM) render -f native $< > $@
+
+terms.manifest: terms.json mappings.json
+	./make-manifest > $@
+
+.INTERMEDIATE: mappings.json
+
+mappings.json: terms.cform | $(COMMONFORM)
+	$(COMMONFORM) directions < $< > $@
+
+$(COMMONFORM):
+	npm i
